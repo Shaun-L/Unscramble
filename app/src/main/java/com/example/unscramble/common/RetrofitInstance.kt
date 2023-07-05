@@ -1,4 +1,4 @@
-package com.example.unscramble.data
+package com.example.unscramble.common
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

@@ -1,9 +1,10 @@
 package com.example.unscramble.data
 
+import com.example.unscramble.data.remote.dto.Words
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface WordsService {
+interface WordListApi {
 
     @GET("2-letter-words/2-letter-words.json")
     suspend fun get2LetterWords() : Response<Words>
