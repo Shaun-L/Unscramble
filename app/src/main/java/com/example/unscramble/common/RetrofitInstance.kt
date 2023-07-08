@@ -1,5 +1,8 @@
 package com.example.unscramble.common
 
+import com.example.unscramble.data.WordListApi
+import com.example.unscramble.data.repository.WordListRepositoryImpl
+import com.example.unscramble.domain.repository.WordListRepository
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,6 +31,10 @@ class RetrofitInstance {
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
                 .build()
+        }
+
+        fun getWordListRepository(api: WordListApi) : WordListRepository {
+            return WordListRepositoryImpl(api)
         }
 
     }
