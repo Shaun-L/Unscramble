@@ -6,13 +6,17 @@ import com.example.unscramble.domain.repository.WordListRepository
 
 class WordListViewModel(
     private val unscrambleModel: UnscrambleModel,
-    private val wordListRepository: WordListRepository,
+    private val wordListRepository: WordListRepository
 
 
 ) {
-    fun getValid2LetterWords(wordList: List<Word>, input: String, unscrambleModel: UnscrambleModel){
+    suspend fun getValidWords(
+        wordList: List<Word>,
+        input: String,
+        unscrambleModel: UnscrambleModel
+    ): List<String> {
         val dictionary = unscrambleModel.createDictionary(wordList)
-
+        return unscrambleModel.generatePermutations(input,dictionary)
     }
 
 

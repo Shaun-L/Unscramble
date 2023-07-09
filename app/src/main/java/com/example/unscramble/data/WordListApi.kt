@@ -1,6 +1,5 @@
 package com.example.unscramble.data
 
-import com.example.unscramble.data.remote.dto.WordsItem
 import com.example.unscramble.domain.model.Word
 import retrofit2.http.GET
 
@@ -47,4 +46,5 @@ interface WordListApi {
 
     @GET("15-letter-words/15-letter-words.json")
     suspend fun get15LetterWords() : List<Word>
+
 }
