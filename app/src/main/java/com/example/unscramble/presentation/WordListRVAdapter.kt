@@ -1,29 +1,35 @@
 package com.example.unscramble.presentation
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unscramble.databinding.WordItemsBinding
 
 
-class WordListRVAdapter():RecyclerView.Adapter<WordListHolder>() {
+class WordListRVAdapter(
+    private val wordList: List<String>
+):RecyclerView.Adapter<WordListHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordListHolder {
-        TODO("Not yet implemented")
+        val listItem = WordItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return WordListHolder(listItem)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return wordList.size
     }
 
     override fun onBindViewHolder(holder: WordListHolder, position: Int) {
-        TODO("Not yet implemented")
+        val word = wordList[position]
+        holder.bind(word)
     }
 
 }
 
 class WordListHolder(private val binding: WordItemsBinding):RecyclerView.ViewHolder(binding.root){
 
-    fun bind(){
+    fun bind(word: String){
+        binding.tvWord.text = word
 
     }
 }
