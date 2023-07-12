@@ -43,7 +43,7 @@ class UnscrambleModel {
     fun generatePermutations(
         scrambledLetters: String,
         dictionary: WordDictionary
-    ): List<String> {
+    ): MutableList<String> {
         val permutations = mutableListOf<String>()
         val visited = BooleanArray(scrambledLetters.length)
         val prefix = StringBuilder()

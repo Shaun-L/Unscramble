@@ -1,4 +1,4 @@
-package com.example.unscramble.domain.repository
+package com.example.unscramble.unused
 
 import com.example.unscramble.domain.model.Word
 

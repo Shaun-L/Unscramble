@@ -1,9 +1,7 @@
-package com.example.unscramble.data.repository
+package com.example.unscramble.unused
 
 import com.example.unscramble.data.WordListApi
-import com.example.unscramble.domain.model.UnscrambleModel
 import com.example.unscramble.domain.model.Word
-import com.example.unscramble.domain.repository.WordListRepository
 
 class WordListRepositoryImpl  constructor(
     private val api : WordListApi
