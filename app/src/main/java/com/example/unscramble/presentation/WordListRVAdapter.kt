@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.unscramble.databinding.WordItemsBinding
 
 
-class WordListRVAdapter():RecyclerView.Adapter<WordListHolder>() {
+class WordListRVAdapter(private val wordList: MutableList<String> ):RecyclerView.Adapter<WordListHolder>() {
 
-    private val wordList = mutableListOf<String>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordListHolder {
         val listItem = WordItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return WordListHolder(listItem)

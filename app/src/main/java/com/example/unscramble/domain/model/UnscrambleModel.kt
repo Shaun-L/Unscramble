@@ -51,7 +51,7 @@ class UnscrambleModel {
         return permutations
     }
 
-    fun generatePermutationsRecursive(
+    private fun generatePermutationsRecursive(
         letters: String,
         used: BooleanArray,
         node: TrieNode,

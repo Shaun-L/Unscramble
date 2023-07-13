@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val wordList = MutableLiveData<MutableList<String>>()
+
         retService = RetrofitInstance
             .getRetrofitInstance()
             .create(WordListApi::class.java)
@@ -37,28 +39,38 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory).get(WordListViewModel::class.java)
 
         binding.btnUnscramble.setOnClickListener{
-            getResponse()
+            updateWords(wordList)
         }
 
+        initRecyclerView(wordList)
+    }
+    private fun updateWords(wordList: MutableLiveData<MutableList<String>>){
+        viewModel.getAllValidWords(binding.etInput.text.toString().lowercase())
+        val validAllWords = viewModel.validAllWords
+        wordList.value = validAllWords
+        wordList.observe(this) { newData ->
+            adapter.setList(newData ?: mutableListOf())
+            adapter.notifyDataSetChanged()
+        }
 
-
-        initRecyclerView()
     }
 
-    private fun getResponse() {
+    private fun updateWordList(wordList: MutableLiveData<MutableList<String>>) {
         val responseLiveData: LiveData<MutableList<String>?> =  liveData{
             viewModel.getAllValidWords(binding.etInput.text.toString().lowercase())
             val response = viewModel.validAllWords
-            emit(response.value)
+            emit(response)
         }
         responseLiveData.observe(this, Observer {
-            adapter.setList(it!!)
+            adapter.setList(it ?: mutableListOf())
+            adapter.notifyDataSetChanged()
         })
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerView(wordList:MutableLiveData<MutableList<String>>) {
         binding.rvOutput.layoutManager = GridLayoutManager(this, 5)
-        adapter = WordListRVAdapter()
+
+        adapter = WordListRVAdapter(wordList.value ?: mutableListOf())
         binding.rvOutput.adapter = adapter
     }
 
