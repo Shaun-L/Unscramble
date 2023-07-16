@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory).get(WordListViewModel::class.java)
 
         binding.btnUnscramble.setOnClickListener{
+            viewModel.clearWordList()
             updateWords(wordList)
         }
 
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
     }
     private fun updateWords(wordList: MutableLiveData<MutableList<String>>){
         viewModel.getAllValidWords(binding.etInput.text.toString().lowercase())
-        val validAllWords = viewModel.validAllWords
+        viewModel.returnAllValidWords()
+        val validAllWords = viewModel.validAllWords //unnecessary
         wordList.value = validAllWords
         wordList.observe(this) { newData ->
             adapter.setList(newData ?: mutableListOf())

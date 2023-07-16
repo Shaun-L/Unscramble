@@ -37,116 +37,88 @@ class WordListViewModel(
 
 
     private fun getValid2Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-                val dictionary = unscrambleModel.createDictionary(fullWordList.all2LetterWords)
-                valid2Words = unscrambleModel.generatePermutations(input, dictionary)
-        }
+        val dictionary = unscrambleModel.createDictionary(fullWordList.all2LetterWords)
+        valid2Words = unscrambleModel.generatePermutations(input, dictionary)
     }
 
     private fun getValid3Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 3) {
-                val dictionary = unscrambleModel.createDictionary(fullWordList.all3LetterWords)
-                valid3Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 3) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all3LetterWords)
+            valid3Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
 
     private fun getValid4Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 4) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all4LetterWords)
-                    valid4Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 4) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all4LetterWords)
+            valid4Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid5Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 5) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all5LetterWords)
-                    valid5Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 5) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all5LetterWords)
+            valid5Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid6Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 6) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all6LetterWords)
-                    valid6Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 6) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all6LetterWords)
+            valid6Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid7Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 7) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all7LetterWords)
-                    valid7Words = unscrambleModel.generatePermutations(input, dictionary)
+        if(input.length >= 7) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all7LetterWords)
+            valid7Words = unscrambleModel.generatePermutations(input, dictionary)
             }
-        }
     }
     private fun getValid8Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 7) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all8LetterWords)
-                    valid8Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 7) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all8LetterWords)
+            valid8Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid9Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 9) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all9LetterWords)
-                    valid9Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 9) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all9LetterWords)
+            valid9Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid10Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 10) {
-                val dictionary = unscrambleModel.createDictionary(fullWordList.all10LetterWords)
-                valid10Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 10) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all10LetterWords)
+            valid10Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
 
     private fun getValid11Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 11) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all11LetterWords)
-                    valid11Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 11) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all11LetterWords)
+            valid11Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid12Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 12) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all12LetterWords)
-                    valid12Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 12) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all12LetterWords)
+            valid12Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid13Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 13) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all13LetterWords)
-                    valid13Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 13) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all13LetterWords)
+            valid13Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid14Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length >= 14) {
-                val dictionary = unscrambleModel.createDictionary(fullWordList.all14LetterWords)
-                valid14Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length >= 14) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all14LetterWords)
+            valid14Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
     private fun getValid15Words(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            if(input.length == 15) {
-                    val dictionary = unscrambleModel.createDictionary(fullWordList.all15LetterWords)
-                    valid15Words = unscrambleModel.generatePermutations(input, dictionary)
-            }
+        if(input.length == 15) {
+            val dictionary = unscrambleModel.createDictionary(fullWordList.all15LetterWords)
+            valid15Words = unscrambleModel.generatePermutations(input, dictionary)
         }
     }
 
@@ -171,50 +143,65 @@ class WordListViewModel(
     }
 
     fun getAllValidWords(input: String) {
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid2Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid3Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid4Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid5Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid6Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid7Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid8Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid9Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid10Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid11Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid12Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid13Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid14Words(input)
         }
-        viewModelScope.launch {
+        viewModelScope.launch{
             getValid15Words(input)
         }
+    }
 
-
+    fun returnAllValidWords() {
+        validAllWords += valid2Words
+        validAllWords += valid3Words
+        validAllWords += valid4Words
+        validAllWords += valid5Words
+        validAllWords += valid6Words
+        validAllWords += valid7Words
+        validAllWords += valid8Words
+        validAllWords += valid9Words
+        validAllWords += valid10Words
+        validAllWords += valid11Words
+        validAllWords += valid12Words
+        validAllWords += valid13Words
+        validAllWords += valid14Words
+        validAllWords += valid15Words
     }
 
 
