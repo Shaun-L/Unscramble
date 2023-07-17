@@ -70,7 +70,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView(wordList:MutableLiveData<MutableList<String>>) {
-        binding.rvOutput.layoutManager = GridLayoutManager(this, 5)
+        val customLayoutManager = GridLayoutManager(this, 6)
+        customLayoutManager
+        binding.rvOutput.layoutManager = GridLayoutManager(this, 6)
+
+
 
         adapter = WordListRVAdapter(wordList.value ?: mutableListOf())
         binding.rvOutput.adapter = adapter

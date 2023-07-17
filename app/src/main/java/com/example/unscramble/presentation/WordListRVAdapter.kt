@@ -1,9 +1,19 @@
 package com.example.unscramble.presentation
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unscramble.databinding.WordItemsBinding
+
+class CustomGridLayoutManager(context: Context, spanCount: Int) : GridLayoutManager(context, spanCount) {
+    override fun getSpanSizeLookup(): SpanSizeLookup {
+        return super.getSpanSizeLookup()
+    }
+}
+
+
 
 
 class WordListRVAdapter(private val wordList: MutableList<String> ):RecyclerView.Adapter<WordListHolder>() {
