@@ -54,27 +54,10 @@ class MainActivity : AppCompatActivity() {
             adapter.setList(newData ?: mutableListOf())
             adapter.notifyDataSetChanged()
         }
-
-    }
-
-    private fun updateWordList(wordList: MutableLiveData<MutableList<String>>) {
-        val responseLiveData: LiveData<MutableList<String>?> =  liveData{
-            viewModel.getAllValidWords(binding.etInput.text.toString().lowercase())
-            val response = viewModel.validAllWords
-            emit(response)
-        }
-        responseLiveData.observe(this, Observer {
-            adapter.setList(it ?: mutableListOf())
-            adapter.notifyDataSetChanged()
-        })
     }
 
     private fun initRecyclerView(wordList:MutableLiveData<MutableList<String>>) {
-        val customLayoutManager = GridLayoutManager(this, 6)
-        customLayoutManager
         binding.rvOutput.layoutManager = GridLayoutManager(this, 6)
-
-
 
         adapter = WordListRVAdapter(wordList.value ?: mutableListOf())
         binding.rvOutput.adapter = adapter
