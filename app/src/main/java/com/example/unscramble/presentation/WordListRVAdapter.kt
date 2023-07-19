@@ -12,6 +12,9 @@ import com.example.unscramble.domain.model.WordSection
 
 class CustomSpanSizeLookup(private val adapter: WordListRVAdapter) : GridLayoutManager.SpanSizeLookup() {
     override fun getSpanSize(position: Int): Int {
+        if (position in adapter.getHeaderSpaces()) {
+            return 6
+        }
         //default span == 6
         return when(adapter.getSectionWordLength(position)) {
             in 2..5 -> 1
@@ -23,8 +26,9 @@ class CustomSpanSizeLookup(private val adapter: WordListRVAdapter) : GridLayoutM
 
 }
 
-class WordListRVAdapter(private val sections: MutableList<WordSection> ):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WordListRVAdapter():RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var sections: MutableList<WordSection> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == 0) {
             val listItem = WordItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -36,7 +40,23 @@ class WordListRVAdapter(private val sections: MutableList<WordSection> ):Recycle
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        if (holder is HeaderHolder) {
+            holder.bind(sections[getHeaderSpaces().indexOf(position)].header)
+        } else if (holder is WordListHolder) {
+            var count = 0
+            var previous = 0
+            while (position > previous) {
+                previous += sections[count].words.size
+                count++
+            }
+            count--
+            previous -= sections[count].words.size
+
+            holder.bind(sections[count].words[position-previous-1])
+        }
+
+
+
     }
 
     override fun getItemCount(): Int {
@@ -52,7 +72,11 @@ class WordListRVAdapter(private val sections: MutableList<WordSection> ):Recycle
 
     }
 
-    private fun getHeaderSpaces(): MutableList<Int> {
+    fun setList(newSections: MutableList<WordSection>) {
+        sections = newSections
+    }
+
+    fun getHeaderSpaces(): MutableList<Int> {
         var headerSpaces = mutableListOf<Int>()
         headerSpaces.add(0)
         var count = 0
@@ -66,7 +90,14 @@ class WordListRVAdapter(private val sections: MutableList<WordSection> ):Recycle
 
 
     fun getSectionWordLength(position: Int) : Int {
-        return sections[position].wordLength
+        var count = 0
+        var previous = 0
+        while (position > previous) {
+            previous += sections[count].words.size
+            count++
+        }
+        count--
+        return sections[count].wordLength
     }
 
 

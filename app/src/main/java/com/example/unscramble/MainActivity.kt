@@ -12,6 +12,8 @@ import com.example.unscramble.common.RetrofitInstance
 import com.example.unscramble.data.WordListApi
 import com.example.unscramble.data.db.WordListDatabase
 import com.example.unscramble.databinding.ActivityMainBinding
+import com.example.unscramble.domain.model.WordSection
+import com.example.unscramble.presentation.CustomSpanSizeLookup
 import com.example.unscramble.presentation.WordListRVAdapter
 import com.example.unscramble.presentation.WordListViewModel
 import com.example.unscramble.presentation.WordListViewModelFactory
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val wordList = MutableLiveData<MutableList<String>>()
+        val wordList = MutableLiveData<MutableList<WordSection>>()
 
         retService = RetrofitInstance
             .getRetrofitInstance()
@@ -42,24 +44,24 @@ class MainActivity : AppCompatActivity() {
             viewModel.clearWordList()
             updateWords(wordList)
         }
+        initRecyclerView()
 
-        initRecyclerView(wordList)
     }
-    private fun updateWords(wordList: MutableLiveData<MutableList<String>>){
+
+    private fun updateWords(wordList: MutableLiveData<MutableList<WordSection>>){
         viewModel.getAllValidWords(binding.etInput.text.toString().lowercase())
-        viewModel.returnAllValidWords()
-        val validAllWords = viewModel.validAllWords //unnecessary
-        wordList.value = validAllWords
+        wordList.value = viewModel.returnAllValidWords()
         wordList.observe(this) { newData ->
-            adapter.setList(newData ?: mutableListOf())
+            adapter.setList(newData)
             adapter.notifyDataSetChanged()
         }
     }
 
-    private fun initRecyclerView(wordList:MutableLiveData<MutableList<String>>) {
-        binding.rvOutput.layoutManager = GridLayoutManager(this, 6)
-
-        adapter = WordListRVAdapter(wordList.value ?: mutableListOf())
+    private fun initRecyclerView() {
+        val layoutManager = GridLayoutManager(this, 6)
+        adapter = WordListRVAdapter()
+        layoutManager.spanSizeLookup = CustomSpanSizeLookup(adapter)
+        binding.rvOutput.layoutManager = layoutManager
         binding.rvOutput.adapter = adapter
     }
 

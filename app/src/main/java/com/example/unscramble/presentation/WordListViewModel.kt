@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.unscramble.data.db.WordListDatabase
 import com.example.unscramble.domain.model.UnscrambleModel
+import com.example.unscramble.domain.model.Word
 import com.example.unscramble.domain.model.WordSection
 import com.example.unscramble.unused.WordListRepository
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,6 @@ class WordListViewModel(
 ) : ViewModel() {
     private var unscrambleModel = UnscrambleModel()
 
-    var validAllWords : MutableList<String> = mutableListOf()
     var valid2Words = WordSection("2 Letter Words", mutableListOf(), 2)
     var valid3Words = WordSection("3 Letter Words", mutableListOf(), 3)
     var valid4Words = WordSection("4 Letter Words", mutableListOf(), 4)
@@ -124,7 +124,6 @@ class WordListViewModel(
     }
 
     fun clearWordList() {
-        validAllWords.clear()
         valid2Words.words.clear()
         valid3Words.words.clear()
         valid4Words.words.clear()
@@ -188,21 +187,53 @@ class WordListViewModel(
         }
     }
 
-    fun returnAllValidWords() {
-        validAllWords += valid2Words.words
-        validAllWords += valid3Words.words
-        validAllWords += valid4Words.words
-        validAllWords += valid5Words.words
-        validAllWords += valid6Words.words
-        validAllWords += valid7Words.words
-        validAllWords += valid8Words.words
-        validAllWords += valid9Words.words
-        validAllWords += valid10Words.words
-        validAllWords += valid11Words.words
-        validAllWords += valid12Words.words
-        validAllWords += valid13Words.words
-        validAllWords += valid14Words.words
-        validAllWords += valid15Words.words
+    fun returnAllValidWords(): MutableList<WordSection> {
+        var allSections = mutableListOf<WordSection>()
+        if (valid2Words.words.size > 0) {
+            allSections.add(valid2Words)
+        }
+        if (valid3Words.words.size > 0) {
+            allSections.add(valid4Words)
+        }
+        if (valid4Words.words.size > 0) {
+            allSections.add(valid4Words)
+        }
+        if (valid5Words.words.size > 0) {
+            allSections.add(valid5Words)
+        }
+        if (valid6Words.words.size > 0) {
+            allSections.add(valid6Words)
+        }
+        if (valid7Words.words.size > 0) {
+            allSections.add(valid7Words)
+        }
+        if (valid8Words.words.size > 0) {
+            allSections.add(valid8Words)
+        }
+        if (valid9Words.words.size > 0) {
+            allSections.add(valid9Words)
+        }
+        if (valid10Words.words.size > 0) {
+            allSections.add(valid10Words)
+        }
+        if (valid11Words.words.size > 0) {
+            allSections.add(valid11Words)
+        }
+        if (valid12Words.words.size > 0) {
+            allSections.add(valid12Words)
+        }
+        if (valid13Words.words.size > 0) {
+            allSections.add(valid13Words)
+        }
+        if (valid14Words.words.size > 0) {
+            allSections.add(valid14Words)
+        }
+        if (valid15Words.words.size > 0) {
+            allSections.add(valid15Words)
+        }
+        return allSections
+
+
     }
 
 
