@@ -193,7 +193,7 @@ class WordListViewModel(
             allSections.add(valid2Words)
         }
         if (valid3Words.words.size > 0) {
-            allSections.add(valid4Words)
+            allSections.add(valid3Words)
         }
         if (valid4Words.words.size > 0) {
             allSections.add(valid4Words)

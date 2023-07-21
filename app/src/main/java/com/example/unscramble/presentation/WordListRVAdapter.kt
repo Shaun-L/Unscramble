@@ -17,8 +17,8 @@ class CustomSpanSizeLookup(private val adapter: WordListRVAdapter) : GridLayoutM
         }
         //default span == 6
         return when(adapter.getSectionWordLength(position)) {
-            in 2..5 -> 1
-            in 6..11 -> 2
+            in 2..4 -> 1
+            in 5..11 -> 2
             else -> 3
         }
 
@@ -41,18 +41,23 @@ class WordListRVAdapter():RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is HeaderHolder) {
-            holder.bind(sections[getHeaderSpaces().indexOf(position)].header)
+            val currentHeader = sections[getHeaderSpaces().indexOf(position)].header
+            holder.bind(currentHeader)
         } else if (holder is WordListHolder) {
+            val headerSpaces = getHeaderSpaces()
             var count = 0
-            var previous = 0
-            while (position > previous) {
-                previous += sections[count].words.size
-                count++
+            for (i in 0 .. headerSpaces.size) {
+                if(i == headerSpaces.size || position < headerSpaces[i] ){
+                    val currentSection = sections[i-1]
+                    val currentWordsList = currentSection.words
+                    val currentWordsIndex = position - count - 1
+                    val currentWord = currentWordsList[currentWordsIndex]
+                    holder.bind(currentWord)
+                    break
+                }else{
+                    count = headerSpaces[i]
+                }
             }
-            count--
-            previous -= sections[count].words.size
-
-            holder.bind(sections[count].words[position-previous-1])
         }
 
 
@@ -90,14 +95,15 @@ class WordListRVAdapter():RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     fun getSectionWordLength(position: Int) : Int {
-        var count = 0
-        var previous = 0
-        while (position > previous) {
-            previous += sections[count].words.size
-            count++
+        val headerSpaces = getHeaderSpaces()
+        for (i in 0 until headerSpaces.size) {
+            if (position < headerSpaces[i]) {
+                return sections[i-1].wordLength
+            } else if (position == headerSpaces[i]) {
+                return sections[i].wordLength
+            }
         }
-        count--
-        return sections[count].wordLength
+        return sections[sections.size-1].wordLength
     }
 
 
