@@ -1,7 +1,13 @@
 package com.example.unscramble
 
+import android.app.Activity
+import android.content.Context
+import android.inputmethodservice.InputMethodService
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -40,12 +46,29 @@ class MainActivity : AppCompatActivity() {
         val factory = WordListViewModelFactory(wordLibrary)
         viewModel = ViewModelProvider(this, factory).get(WordListViewModel::class.java)
 
+
         binding.btnUnscramble.setOnClickListener{
             viewModel.clearWordList()
             updateWords(wordList)
+            hideKeyboard()
         }
         initRecyclerView()
 
+    }
+
+
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun updateWords(wordList: MutableLiveData<MutableList<WordSection>>){

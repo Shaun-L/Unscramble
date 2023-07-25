@@ -1,13 +1,11 @@
 package com.example.unscramble.presentation
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unscramble.databinding.HeaderItemBinding
 import com.example.unscramble.databinding.WordItemsBinding
-import com.example.unscramble.domain.model.Word
 import com.example.unscramble.domain.model.WordSection
 
 class CustomSpanSizeLookup(private val adapter: WordListRVAdapter) : GridLayoutManager.SpanSizeLookup() {
@@ -26,7 +24,7 @@ class CustomSpanSizeLookup(private val adapter: WordListRVAdapter) : GridLayoutM
 
 }
 
-class WordListRVAdapter():RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WordListRVAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var sections: MutableList<WordSection> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,11 +46,7 @@ class WordListRVAdapter():RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             var count = 0
             for (i in 0 .. headerSpaces.size) {
                 if(i == headerSpaces.size || position < headerSpaces[i] ){
-                    val currentSection = sections[i-1]
-                    val currentWordsList = currentSection.words
-                    val currentWordsIndex = position - count - 1
-                    val currentWord = currentWordsList[currentWordsIndex]
-                    holder.bind(currentWord)
+                    holder.bind(sections[i-1].words[position - count - 1])
                     break
                 }else{
                     count = headerSpaces[i]
@@ -82,7 +76,7 @@ class WordListRVAdapter():RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun getHeaderSpaces(): MutableList<Int> {
-        var headerSpaces = mutableListOf<Int>()
+        val headerSpaces = mutableListOf<Int>()
         headerSpaces.add(0)
         var count = 0
         for (i in 0 until sections.size-1){
