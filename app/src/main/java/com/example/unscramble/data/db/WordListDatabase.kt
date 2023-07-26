@@ -32,21 +32,23 @@ import kotlinx.coroutines.launch
 
 
 class WordListDatabase(
-    private val get2LWUseCase: Get2LWUseCase,
-    private val get3LWUseCase: Get3LWUseCase,
-    private val get4LWUseCase: Get4LWUseCase,
-    private val get5LWUseCase: Get5LWUseCase,
-    private val get6LWUseCase: Get6LWUseCase,
-    private val get7LWUseCase: Get7LWUseCase,
-    private val get8LWUseCase: Get8LWUseCase,
-    private val get9LWUseCase: Get9LWUseCase,
-    private val get10LWUseCase: Get10LWUseCase,
-    private val get11LWUseCase: Get11LWUseCase,
-    private val get12LWUseCase: Get12LWUseCase,
-    private val get13LWUseCase: Get13LWUseCase,
-    private val get14LWUseCase: Get14LWUseCase,
-    private val get15LWUseCase: Get15LWUseCase
+    repository: WordListApi
 ) {
+    private val get2LWUseCase = Get2LWUseCase(repository)
+    private val get3LWUseCase = Get3LWUseCase(repository)
+    private val get4LWUseCase = Get4LWUseCase(repository)
+    private val get5LWUseCase = Get5LWUseCase(repository)
+    private val get6LWUseCase = Get6LWUseCase(repository)
+    private val get7LWUseCase = Get7LWUseCase(repository)
+    private val get8LWUseCase = Get8LWUseCase(repository)
+    private val get9LWUseCase = Get9LWUseCase(repository)
+    private val get10LWUseCase = Get10LWUseCase(repository)
+    private val get11LWUseCase = Get11LWUseCase(repository)
+    private val get12LWUseCase = Get12LWUseCase(repository)
+    private val get13LWUseCase = Get13LWUseCase(repository)
+    private val get14LWUseCase = Get14LWUseCase(repository)
+    private val get15LWUseCase = Get15LWUseCase(repository)
+
     lateinit var all2LetterWords : List<Word>
     lateinit var all3LetterWords : List<Word>
     lateinit var all4LetterWords : List<Word>
@@ -75,24 +77,275 @@ class WordListDatabase(
 
 
     private fun getDataFromAPI() {
-        val scope = CoroutineScope(Dispatchers.IO)
+    val scope = CoroutineScope(Dispatchers.IO)
         get2LWUseCase().onEach { result ->
-            when(result) {
+            when (result) {
+                is Resource.Success -> {
+                    Log.e("MYTAG", "Error")
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all2LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                    Log.e("MYTAG", state.value.error)
+                }
+
+                is Resource.Loading -> {
+                    Log.e("MYTAG", "Loading")
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get3LWUseCase().onEach { result ->
+            when (result) {
                 is Resource.Success -> {
                     _state.value = WordListState(words = result.data ?: emptyList())
+                    all3LetterWords = state.value.words
                 }
+
                 is Resource.Error -> {
                     _state.value = WordListState(
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
+
                 is Resource.Loading -> {
                     _state.value = WordListState(isLoading = true)
                 }
             }
         }.launchIn(scope)
 
+        get4LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all4LetterWords = state.value.words
+                }
 
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get5LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all5LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get6LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all6LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get7LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all7LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get8LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all8LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get9LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all9LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get10LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all10LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get11LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all11LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get12LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all12LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get13LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all13LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get14LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all14LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
+
+        get15LWUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = WordListState(words = result.data ?: emptyList())
+                    all15LetterWords = state.value.words
+                }
+
+                is Resource.Error -> {
+                    _state.value = WordListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = WordListState(isLoading = true)
+                }
+            }
+        }.launchIn(scope)
 
     }
 
