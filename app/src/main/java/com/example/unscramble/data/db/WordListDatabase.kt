@@ -1,5 +1,6 @@
 package com.example.unscramble.data.db
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -29,11 +30,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 
 class WordListDatabase(
-    repository: WordListApi
+    val repository: WordListApi
 ) {
+
     private val get2LWUseCase = Get2LWUseCase(repository)
     private val get3LWUseCase = Get3LWUseCase(repository)
     private val get4LWUseCase = Get4LWUseCase(repository)
@@ -65,23 +69,20 @@ class WordListDatabase(
     lateinit var all15LetterWords : List<Word>
 
     private val _state = MutableStateFlow(WordListState())
-    val state: StateFlow<WordListState> = _state
+    var state: StateFlow<WordListState> = _state
 
 
-
-
-    init {
+    fun getWords() {
         getDataFromAPI()
     }
 
 
 
     private fun getDataFromAPI() {
-    val scope = CoroutineScope(Dispatchers.IO)
+        val scope = CoroutineScope(Dispatchers.IO)
         get2LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    Log.e("MYTAG", "Error")
                     _state.value = WordListState(words = result.data ?: emptyList())
                     all2LetterWords = state.value.words
                 }
@@ -90,11 +91,9 @@ class WordListDatabase(
                     _state.value = WordListState(
                         error = result.message ?: "An unexpected error occurred"
                     )
-                    Log.e("MYTAG", state.value.error)
                 }
 
                 is Resource.Loading -> {
-                    Log.e("MYTAG", "Loading")
                     _state.value = WordListState(isLoading = true)
                 }
             }

@@ -18,6 +18,7 @@ import com.example.unscramble.common.RetrofitInstance
 import com.example.unscramble.data.WordListApi
 import com.example.unscramble.data.db.WordListDatabase
 import com.example.unscramble.databinding.ActivityMainBinding
+import com.example.unscramble.domain.model.WordLibraryHolder.wordLibrary
 import com.example.unscramble.domain.model.WordSection
 import com.example.unscramble.presentation.CustomSpanSizeLookup
 import com.example.unscramble.presentation.WordListRVAdapter
@@ -38,12 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         val wordList = MutableLiveData<MutableList<WordSection>>()
 
-        retService = RetrofitInstance
-            .getRetrofitInstance()
-            .create(WordListApi::class.java)
 
-        val wordLibrary = WordListDatabase(retService)
-        val factory = WordListViewModelFactory(wordLibrary)
+        val factory = WordListViewModelFactory(wordLibrary!!)
         viewModel = ViewModelProvider(this, factory).get(WordListViewModel::class.java)
 
 

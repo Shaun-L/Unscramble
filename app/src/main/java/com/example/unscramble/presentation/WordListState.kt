@@ -3,7 +3,7 @@ package com.example.unscramble.presentation
 import com.example.unscramble.domain.model.Word
 
 data class WordListState(
-    val isLoading: Boolean = false,
-    val words: List<Word> = emptyList(),
-    val error: String = ""
+    var isLoading: Boolean = false,
+    var words: List<Word> = emptyList(),
+    var error: String = ""
 )
