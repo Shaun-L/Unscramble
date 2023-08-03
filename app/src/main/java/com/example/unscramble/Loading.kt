@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.example.unscramble.common.RetrofitInstance
 import com.example.unscramble.data.WordListApi
 import com.example.unscramble.data.db.WordListDatabase
 import com.example.unscramble.databinding.ActivityLoadingBinding
 import com.example.unscramble.domain.model.WordLibraryHolder.wordLibrary
+import com.example.unscramble.presentation.WordListState
+import kotlinx.coroutines.launch
 
 class Loading : AppCompatActivity() {
 
@@ -25,30 +28,32 @@ class Loading : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //modify this code
-        Handler(Looper.getMainLooper()).postDelayed( {
-            fetchDataFromAPI()
-        }, SPLASH_TIME)
-
-        Handler(Looper.getMainLooper()).postDelayed( {
-            if (wordLibrary!!.state.value.error == "") {
-                onAPISuccess()
-            } else {
-                onAPIError()
-            }
-        }, SPLASH_TIME)
-
-    }
-
-    private fun fetchDataFromAPI() {
         retService = RetrofitInstance
             .getRetrofitInstance()
             .create(WordListApi::class.java)
 
         wordLibrary = WordListDatabase(retService)
-        wordLibrary!!.getWords()
+
+        lifecycleScope.launch {
+            wordLibrary!!.state.collect {state ->
+                when (state) {
+                    is WordListState.Loading -> {}
+                    is WordListState.Success -> {
+                        onAPISuccess()
+                    }
+                    is WordListState.Error -> {
+                        onAPIError(state.message)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            wordLibrary!!.getDataFromAPI()
+        }
 
     }
+
 
     private fun onAPISuccess() {
         val intent = Intent(this, MainActivity::class.java)
@@ -57,9 +62,10 @@ class Loading : AppCompatActivity() {
 
     }
 
-    private fun onAPIError() {
-        binding.tvLoadingStatus.text = wordLibrary!!.state.value.error
+    private fun onAPIError(message: String) {
+        binding.tvLoadingStatus.text = message
         binding.progressBar2.visibility = View.INVISIBLE
+
 
     }
 

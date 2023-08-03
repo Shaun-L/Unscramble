@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -68,33 +69,25 @@ class WordListDatabase(
     lateinit var all14LetterWords : List<Word>
     lateinit var all15LetterWords : List<Word>
 
-    private val _state = MutableStateFlow(WordListState())
-    var state: StateFlow<WordListState> = _state
-
-
-    fun getWords() {
-        getDataFromAPI()
-    }
+    private val _state = MutableStateFlow<WordListState>(WordListState.Loading)
+    val state: StateFlow<WordListState> get() = _state.asStateFlow()
 
 
 
-    private fun getDataFromAPI() {
+    suspend fun getDataFromAPI() {
         val scope = CoroutineScope(Dispatchers.IO)
         get2LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all2LetterWords = state.value.words
+                    all2LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -102,18 +95,15 @@ class WordListDatabase(
         get3LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all3LetterWords = state.value.words
+                    all3LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -121,18 +111,15 @@ class WordListDatabase(
         get4LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all4LetterWords = state.value.words
+                    all4LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -140,18 +127,15 @@ class WordListDatabase(
         get5LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all5LetterWords = state.value.words
+                    all5LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -159,18 +143,15 @@ class WordListDatabase(
         get6LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all6LetterWords = state.value.words
+                    all6LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -178,18 +159,15 @@ class WordListDatabase(
         get7LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all7LetterWords = state.value.words
+                    all7LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -197,18 +175,15 @@ class WordListDatabase(
         get8LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all8LetterWords = state.value.words
+                    all8LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -216,18 +191,15 @@ class WordListDatabase(
         get9LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all9LetterWords = state.value.words
+                    all9LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -235,18 +207,15 @@ class WordListDatabase(
         get10LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all10LetterWords = state.value.words
+                    all10LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -254,18 +223,15 @@ class WordListDatabase(
         get11LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all11LetterWords = state.value.words
+                    all11LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -273,18 +239,15 @@ class WordListDatabase(
         get12LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all12LetterWords = state.value.words
+                    all12LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -292,18 +255,15 @@ class WordListDatabase(
         get13LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all13LetterWords = state.value.words
+                    all13LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -311,18 +271,15 @@ class WordListDatabase(
         get14LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all14LetterWords = state.value.words
+                    all14LetterWords = result.data ?: emptyList()
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
@@ -330,18 +287,16 @@ class WordListDatabase(
         get15LWUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = WordListState(words = result.data ?: emptyList())
-                    all15LetterWords = state.value.words
+                    all15LetterWords = result.data ?: emptyList()
+                    _state.value = WordListState.Success
                 }
 
                 is Resource.Error -> {
-                    _state.value = WordListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
+                    _state.value = WordListState.Error(result.message ?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = WordListState(isLoading = true)
+                    _state.value = WordListState.Loading
                 }
             }
         }.launchIn(scope)
