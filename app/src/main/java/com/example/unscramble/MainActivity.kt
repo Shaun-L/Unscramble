@@ -2,6 +2,7 @@ package com.example.unscramble
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.inputmethodservice.InputMethodService
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -26,7 +27,6 @@ import com.example.unscramble.presentation.WordListViewModel
 import com.example.unscramble.presentation.WordListViewModelFactory
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var retService: WordListApi
     private lateinit var viewModel: WordListViewModel
     private lateinit var adapter: WordListRVAdapter
 
@@ -45,8 +45,12 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.btnUnscramble.setOnClickListener{
-            viewModel.clearWordList()
-            updateWords(wordList)
+            if (isValidInput(binding.etInput.text.toString().lowercase())) {
+                viewModel.clearWordList()
+                updateWords(wordList)
+            } else {
+                binding.etInput.setText("")
+            }
             hideKeyboard()
         }
         initRecyclerView()
@@ -66,6 +70,25 @@ class MainActivity : AppCompatActivity() {
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun isValidInput(input: String) : Boolean {
+        if (input.length !in 2..15 ) {
+            binding.etInput.hint = "Enter between 2 and 15 letters"
+            binding.etInput.setHintTextColor(Color.parseColor("#ff8a87"))
+            return false
+        }
+        val alphabet = listOf('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' )
+        for (letter in input) {
+            if(letter !in alphabet) {
+                binding.etInput.hint = "Do not use symbols, numbers, or spaces"
+                binding.etInput.setHintTextColor(Color.parseColor("#ff8a87"))
+                return false
+            }
+        }
+        binding.etInput.hint = "Enter up to 15 letters"
+        binding.etInput.setHintTextColor(Color.parseColor("#A8A8A8"))
+        return true
     }
 
     private fun updateWords(wordList: MutableLiveData<MutableList<WordSection>>){
