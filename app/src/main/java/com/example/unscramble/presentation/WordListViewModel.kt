@@ -34,7 +34,7 @@ class WordListViewModel(
     var valid13Words = WordSection("13 Letter Words", mutableListOf(), 13)
     var valid14Words = WordSection("14 Letter Words", mutableListOf(), 14)
     var valid15Words = WordSection("15 Letter Words", mutableListOf(), 15)
-    
+
     private fun getValid2Words(input: String) {
         val dictionary = unscrambleModel.createDictionary(fullWordList.all2LetterWords)
         valid2Words.words = unscrambleModel.generatePermutations(input, dictionary)

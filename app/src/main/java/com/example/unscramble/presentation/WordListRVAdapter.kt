@@ -15,8 +15,8 @@ class CustomSpanSizeLookup(private val adapter: WordListRVAdapter) : GridLayoutM
         }
         //default span == 6
         return when(adapter.getSectionWordLength(position)) {
-            in 2..4 -> 1
-            in 5..11 -> 2
+            in 2..3 -> 1
+            in 4..11 -> 2
             else -> 3
         }
 
