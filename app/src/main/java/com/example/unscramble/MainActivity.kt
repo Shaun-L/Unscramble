@@ -28,7 +28,7 @@ import com.example.unscramble.presentation.WordListViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: WordListViewModel
-    private lateinit var adapter: WordListRVAdapter
+
 
     private lateinit var binding : ActivityMainBinding
 
@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val wordList = MutableLiveData<MutableList<WordSection>>()
 
 
         val factory = WordListViewModelFactory(wordLibrary!!)
@@ -47,14 +45,13 @@ class MainActivity : AppCompatActivity() {
         binding.btnUnscramble.setOnClickListener{
             if (isValidInput(binding.etInput.text.toString().lowercase())) {
                 viewModel.clearWordList()
-                updateWords(wordList)
+                updateWords()
             } else {
                 binding.etInput.setText("")
             }
             hideKeyboard()
         }
         initRecyclerView()
-
     }
 
 
@@ -91,22 +88,25 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun updateWords(wordList: MutableLiveData<MutableList<WordSection>>){
+    private fun updateWords(){
         viewModel.getAllValidWords(binding.etInput.text.toString().lowercase())
-        wordList.value = viewModel.returnAllValidWords()
-        wordList.observe(this) { newData ->
-            adapter.setList(newData)
-            adapter.notifyDataSetChanged()
+        viewModel.allValidWords.value = viewModel.returnAllValidWords()
+        viewModel.allValidWords.observe(this) { newData ->
+            viewModel.adapter.setList(newData)
+            viewModel.adapter.notifyDataSetChanged()
         }
     }
 
     private fun initRecyclerView() {
         val layoutManager = GridLayoutManager(this, 6)
-        adapter = WordListRVAdapter()
-        layoutManager.spanSizeLookup = CustomSpanSizeLookup(adapter)
         binding.rvOutput.layoutManager = layoutManager
-        binding.rvOutput.adapter = adapter
+        binding.rvOutput.adapter = viewModel.adapter
+        layoutManager.spanSizeLookup = CustomSpanSizeLookup(viewModel.adapter)
+
     }
+
+
+
 
 
 

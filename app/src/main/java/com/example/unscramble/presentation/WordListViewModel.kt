@@ -3,6 +3,7 @@ package com.example.unscramble.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.unscramble.data.db.WordListDatabase
 import com.example.unscramble.domain.model.UnscrambleModel
 import com.example.unscramble.domain.model.Word
@@ -15,7 +16,9 @@ import kotlinx.coroutines.withContext
 class WordListViewModel(
    private val fullWordList: WordListDatabase
 ) : ViewModel() {
+    var adapter = WordListRVAdapter()
     private var unscrambleModel = UnscrambleModel()
+    var allValidWords : MutableLiveData<MutableList<WordSection>> = MutableLiveData(mutableListOf())
 
     var valid2Words = WordSection("2 Letter Words", mutableListOf(), 2)
     var valid3Words = WordSection("3 Letter Words", mutableListOf(), 3)
@@ -31,12 +34,7 @@ class WordListViewModel(
     var valid13Words = WordSection("13 Letter Words", mutableListOf(), 13)
     var valid14Words = WordSection("14 Letter Words", mutableListOf(), 14)
     var valid15Words = WordSection("15 Letter Words", mutableListOf(), 15)
-
-
-
-
-
-
+    
     private fun getValid2Words(input: String) {
         val dictionary = unscrambleModel.createDictionary(fullWordList.all2LetterWords)
         valid2Words.words = unscrambleModel.generatePermutations(input, dictionary)
